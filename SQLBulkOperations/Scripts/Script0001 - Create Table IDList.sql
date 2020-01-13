@@ -1,0 +1,4 @@
+IF NOT EXISTS(SELECT * FROM sys.table_types WHERE name = 'IDList')
+BEGIN
+    CREATE TYPE IDList AS TABLE(ID INTEGER)
+END
