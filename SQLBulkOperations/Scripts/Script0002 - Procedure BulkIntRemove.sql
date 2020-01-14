@@ -12,10 +12,12 @@ BEGIN TRY
         BEGIN TRANSACTION
 
         DECLARE @Results TABLE(id INTEGER)
+		
+		DELETE 
+        FROM Books
+        WHERE Id IN (SELECT ID FROM @IDS)
 
-        DELETE 
-        FROM [BulkOperationsDB].[dbo].[@TABLENAME]
-        WHERE Id IN (SELECT ID FROM @IDS)        
+        
 
         COMMIT TRANSACTION
 END TRY
