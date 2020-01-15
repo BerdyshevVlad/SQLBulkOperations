@@ -68,6 +68,7 @@
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\BookRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +81,5 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Script0001 - Create Table IDList.sql" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

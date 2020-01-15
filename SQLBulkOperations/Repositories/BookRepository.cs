@@ -3,19 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dapper;
 using System.Data;
 
 namespace SQLBulkOperations.Repositories
 {
-    public class BookRepository
+    public class BookRepository : BaseRepository
     {
-        public string ConnectionString { get; set; }
-        public BookRepository(string connectionString)
+        public BookRepository(string connectionString) : base(connectionString)
         {
-            ConnectionString = connectionString;
+
         }
 
         public List<Book> GetUsers()
@@ -40,9 +37,21 @@ namespace SQLBulkOperations.Repositories
             return book;
         }
 
-        public void BulkInsert()
+        public void BulkInsert(List<Book> books)
         {
+            try
+            {
+                List<String> sqlColumnList = new List<string>();
+                sqlColumnList.Add("Id");
+                sqlColumnList.Add("Name");
+                sqlColumnList.Add("Price");
 
+                BulkInsertDataList<Book>(books, sqlColumnList);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(String.Format("Error Occurred:  {0}", ex.Message));
+            }
         }
 
         public void BulkRemove(List<int> ids)
