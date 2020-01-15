@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAttributes\DataColumnAttribute.cs" />
+    <Compile Include="DataAttributes\DataTableAttribute.cs" />
     <Compile Include="DBContext\DBContext.cs" />
     <Compile Include="DbUp\DbUp.cs" />
     <Compile Include="Entities\Book.cs" />
@@ -78,5 +80,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Script0001 - Create Table IDList.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
