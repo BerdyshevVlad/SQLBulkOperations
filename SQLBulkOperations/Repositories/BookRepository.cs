@@ -39,18 +39,38 @@ namespace SQLBulkOperations.Repositories
 
         public void BulkInsert(List<Book> books)
         {
-            try
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
-                List<String> sqlColumnList = new List<string>();
-                sqlColumnList.Add("Id");
-                sqlColumnList.Add("Name");
-                sqlColumnList.Add("Price");
-
-                BulkInsertDataList<Book>(books, sqlColumnList);
-            }
-            catch (Exception ex)
-            {
-                Console.Write(String.Format("Error Occurred:  {0}", ex.Message));
+                connection.Open();
+                using (SqlTransaction transaction = connection.BeginTransaction())
+                {
+                    using (SqlCommand oCommand = connection.CreateCommand())
+                    {
+                        oCommand.Transaction = transaction;
+                        oCommand.CommandType = CommandType.Text;
+                        oCommand.CommandText = "INSERT INTO [Books] ([Name], [Price]) VALUES (@name, @price);";
+                        oCommand.Parameters.Add(new SqlParameter("@name", SqlDbType.NChar));
+                        oCommand.Parameters.Add(new SqlParameter("@price", SqlDbType.Decimal));
+                        try
+                        {
+                            foreach (var book in books)
+                            {
+                                oCommand.Parameters[0].Value = book.Name;
+                                oCommand.Parameters[1].Value = book.Price;
+                                if (oCommand.ExecuteNonQuery() != 1)
+                                {
+                                    throw new InvalidProgramException();
+                                }
+                            }
+                            transaction.Commit();
+                        }
+                        catch (Exception)
+                        {
+                            transaction.Rollback();
+                            throw;
+                        }
+                    }
+                }
             }
         }
 
