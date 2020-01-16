@@ -44,20 +44,20 @@ namespace SQLBulkOperations.Repositories
                 connection.Open();
                 using (SqlTransaction transaction = connection.BeginTransaction())
                 {
-                    using (SqlCommand oCommand = connection.CreateCommand())
+                    using (SqlCommand command = connection.CreateCommand())
                     {
-                        oCommand.Transaction = transaction;
-                        oCommand.CommandType = CommandType.Text;
-                        oCommand.CommandText = "INSERT INTO [Books] ([Name], [Price]) VALUES (@name, @price);";
-                        oCommand.Parameters.Add(new SqlParameter("@name", SqlDbType.NChar));
-                        oCommand.Parameters.Add(new SqlParameter("@price", SqlDbType.Decimal));
+                        command.Transaction = transaction;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = "INSERT INTO [Books] ([Name], [Price]) VALUES (@name, @price);";
+                        command.Parameters.Add(new SqlParameter("@name", SqlDbType.NChar));
+                        command.Parameters.Add(new SqlParameter("@price", SqlDbType.Decimal));
                         try
                         {
                             foreach (var book in books)
                             {
-                                oCommand.Parameters[0].Value = book.Name;
-                                oCommand.Parameters[1].Value = book.Price;
-                                if (oCommand.ExecuteNonQuery() != 1)
+                                command.Parameters[0].Value = book.Name;
+                                command.Parameters[1].Value = book.Price;
+                                if (command.ExecuteNonQuery() != 1)
                                 {
                                     throw new InvalidProgramException();
                                 }
